@@ -1,6 +1,13 @@
 // import axios from "axios";
 // axios.defaults.headers.common["x-api-key"] = "live_bPw1HefqXKxGjCEcXQfPslG2mdOVn4nvMzRqzHwPA2hQodzh6pHFH6IV0oHopRtT";
 
+const refs = {
+  select:document.querySelector(".breed-select"),
+ catInfo: document.querySelector(".cat-info"),
+}
+console.log(refs.select)
+console.log(refs.catInfo)
+
 
 function fetchBreeds(){
     const BASE_URL = "https://api.thecatapi.com/v1/breeds";
@@ -17,8 +24,14 @@ const option = {
       return response.json()
 })
 }
-fetchBreeds().then(cats => { console.log(cats) }).catch(error => { console.log(error) });
-
+fetchBreeds().
+    then(data => {
+        data = data.map((({ id, name }) => {
+            return `<option value="${id}">${name}</option>`
+       })).join('')
+    refs.select.insertAdjacentHTML('afterbegin',data);
+    })
+    .catch(error => { console.log(error) });
 
 
 
@@ -27,7 +40,7 @@ function fetchCatByBreed(breedId) {
     const API_KEY = "live_bPw1HefqXKxGjCEcXQfPslG2mdOVn4nvMzRqzHwPA2hQodzh6pHFH6IV0oHopRtT";
 
 
-   return fetch(`${BASE_URL}images/search?breed_ids=${breedId}`).then(response => {
+   return fetch(`${BASE_URL}images/search??api_key=${API_KEY}&breed_ids=${breedId}`).then(response => {
         if (!response.ok) {
             throw new Error(response.statusText)
         }
@@ -35,13 +48,21 @@ function fetchCatByBreed(breedId) {
 })
 }
     
-// fetchCatByBreed("abys").then(cats => { console.log(cats) }).catch(error => { console.log(error) });
+fetchCatByBreed("abys")
+    .then(data => {
+        data = data.map(({ url, breeds: { name, description, temperament } }) => {
+      return `<img src="${url}" alt="" />
+     <h2>${ name }</h2>
+      <p>${ description }</p>
+      <h3>Temperament</h3>
+     <p>${{  temperament }}</p> ` 
+    }).join('')
+     refs.catInfo.insertAdjacentHTML('afterbegin',data);
+    })
+    .catch(error => { console.log(error) });
 
 
-const refs = {
-  select:document.querySelector(".breed-select"),
- catInfo: document.querySelector(".cat-info"),
-}
+
 
 // refs.select.addEventListener("submit", searchCat);
 // // refs.catInfo.addEventListener("submit", searchCat);
@@ -54,18 +75,18 @@ const refs = {
 // fetchCatByBreed(breedId.value).then(data => { console.log(data)}).catch(error => { console.log(error) });
 // }
 
-function createMarkup(arr) {
-  const marup = el =>  arr.map(({ url, breeds: { name, description, temperament } }) => {return `
-     <img src="${url}" alt="${name}" />
-      <h2>${ name }</h2>
-      <p>${description }</p>
-      <h3>Temperament</h3>
-      <p>${{ temperament }}</p> `
+// function createMarkup(arr) {
+//   const marup = el =>  arr.map(({ url, breeds: { name, description, temperament } }) => {return `
+//      <img src="${url}" alt="${name}" />
+//       <h2>${ name }</h2>
+//       <p>${description }</p>
+//       <h3>Temperament</h3>
+//       <p>${{ temperament }}</p> `
     
-}).join("")
-   refs.catInfo.innerHTML = marup(arr[0]);
-}
-createMarkup("abys")
+// }).join("")
+//    refs.catInfo.innerHTML = marup(arr[0]);
+// }
+// createMarkup("abys")
 // catInfo.insertAdjacentHTML('afterbegin', item);
 
 
