@@ -1,16 +1,16 @@
-import axios from "axios";
+// import axios from "axios";
+// axios.defaults.headers.common["x-api-key"] = "live_bPw1HefqXKxGjCEcXQfPslG2mdOVn4nvMzRqzHwPA2hQodzh6pHFH6IV0oHopRtT";
 
-axios.defaults.headers.common["x-api-key"] = "live_bPw1HefqXKxGjCEcXQfPslG2mdOVn4nvMzRqzHwPA2hQodzh6pHFH6IV0oHopRtT";
 
 function fetchBreeds(){
-    const BASE_URL = "https://api.thecatapi.com/v1/";
+    const BASE_URL = "https://api.thecatapi.com/v1/breeds";
     const API_KEY = "live_bPw1HefqXKxGjCEcXQfPslG2mdOVn4nvMzRqzHwPA2hQodzh6pHFH6IV0oHopRtT";
 const option = {
         headers: {
             'x-api-key': API_KEY
         }
     }
-   return fetch(`${BASE_URL}breeds${option}`).then(response => {
+   return fetch(BASE_URL, option).then(response => {
         if (!response.ok) {    
             throw new Error(response.statusText)
         }
@@ -19,67 +19,76 @@ const option = {
 }
 fetchBreeds().then(cats => { console.log(cats) }).catch(error => { console.log(error) });
 
+
+
+
 function fetchCatByBreed(breedId) {
-     const BASE_URL = "https://api.thecatapi.com/v1/breeds";
+     const BASE_URL = "https://api.thecatapi.com/v1/";
     const API_KEY = "live_bPw1HefqXKxGjCEcXQfPslG2mdOVn4nvMzRqzHwPA2hQodzh6pHFH6IV0oHopRtT";
 
 
    return fetch(`${BASE_URL}images/search?breed_ids=${breedId}`).then(response => {
-        if (!response.ok) {    
+        if (!response.ok) {
             throw new Error(response.statusText)
         }
       return response.json()
 })
 }
     
-fetchCatByBreed("abys").then(cats => { console.log(cats) }).catch(error => { console.log(error) });
+// fetchCatByBreed("abys").then(cats => { console.log(cats) }).catch(error => { console.log(error) });
+
+
+const refs = {
+  select:document.querySelector(".breed-select"),
+ catInfo: document.querySelector(".cat-info"),
+}
+
+// refs.select.addEventListener("submit", searchCat);
+// // refs.catInfo.addEventListener("submit", searchCat);
+
+// function searchCat(evt) {
+//     evt.preventDefoult();
+
+//     const { breedId } = evt.currentTarget.elements;
+
+// fetchCatByBreed(breedId.value).then(data => { console.log(data)}).catch(error => { console.log(error) });
+// }
+
+function createMarkup(arr) {
+  const marup = el =>  arr.map(({ url, breeds: { name, description, temperament } }) => {return `
+     <img src="${url}" alt="${name}" />
+      <h2>${ name }</h2>
+      <p>${description }</p>
+      <h3>Temperament</h3>
+      <p>${{ temperament }}</p> `
+    
+}).join("")
+   refs.catInfo.innerHTML = marup(arr[0]);
+}
+createMarkup("abys")
+// catInfo.insertAdjacentHTML('afterbegin', item);
 
 
 
-// const url = `https://api.thecatapi.com/v1/breeds`;
-// const api_key = "live_bPw1HefqXKxGjCEcXQfPslG2mdOVn4nvMzRqzHwPA2hQodzh6pHFH6IV0oHopRtT"
-// let storedBreeds = []
 
-//  fetch(url,{headers: {
-//       'x-api-key': api_key
-//     }})
-//  .then((response) => {
-//    return response.json();
-//  })
-// .then((data) => {
+// then((data) => {
    
-//    //filter to only include those with an `image` object
-//    data = data.filter(img=> img.image?.url!=null)
+//    data = data.filter(img=> img.image?.url)
+  
+//     console.log(data)
    
-//   storedBreeds = data;
-   
-//    for (let i = 0; i < storedBreeds.length; i++) {
-//     const breed = storedBreeds[i];
+//    for (let i = 0; i < data.length; i+=1) {
+//        const breed = data[i];
+//        console.log(breed)
 //     let option = document.createElement('option');
      
-//      //skip any breeds that don't have an image
-//      if(!breed.image)continue
-     
-//     //use the current array index
+//     console.log(option)
+   
 //     option.value = i;
 //     option.innerHTML = `${breed.name}`;
-// document.getElementById('breed_selector').appendChild(option);
-    
+       
+// const select = document.querySelector('.breed_selector');
+//     select.insertAdjacentHTML('afterbegin',option)
 //     }
-//    //show the first breed by default
-//    showBreedImage(0)
-// })
-// .catch(function(error) {
-//    console.log(error);
-// });
 
-// function showBreedImage(index)
-// { 
-//   document.getElementById("breed_image").src= storedBreeds[index].image.url;
-  
-//   document.getElementById("breed_json").textContent= storedBreeds[index].temperament
-  
-  
-//   document.getElementById("wiki_link").href= storedBreeds[index].wikipedia_url
-//   document.getElementById("wiki_link").innerHTML= storedBreeds[index].wikipedia_url
-// }
+// })
