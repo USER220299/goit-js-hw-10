@@ -4,14 +4,11 @@ import 'slim-select/dist/slimselect.css';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 
 function slim() {
-     new SlimSelect({
-     select: refs.select,
+    new SlimSelect({
+    select: '.breed-select'
  })
   
-
 }
-
-
 
 const refs = {
     select: document.querySelector(".breed-select"),
@@ -40,9 +37,9 @@ fetchBreeds().then(data => {
    data = data.map((({ id, name }) => {
      return `<option value="${id}">${name}</option>`
    })).join('')
-  
+   slim()
   refs.select.insertAdjacentHTML('afterbegin', data);
-  
+ 
     })
   .catch(error => {
     // refs.loader.hidden = true;
@@ -61,15 +58,14 @@ function searchCat(evt) {
   evt.preventDefault();
   refs.catInfo.innerHTML = '';
   // refs.loader.hidden = false;
-    refs.loader.classList.replace("loader-hidden", "loader");
-  
+  refs.loader.classList.replace("loader-hidden", "loader");
   
     const { value }= evt.target;
    fetchCatByBreed(value)
      .then(data => {
       // refs.loader.hidden = true;
-        refs.loader.classList.replace("loader", "loader-hidden");
-       createMarkup(data)
+      refs.loader.classList.replace("loader", "loader-hidden");
+      createMarkup(data)
       
      })
      .catch(error => {
@@ -79,7 +75,7 @@ function searchCat(evt) {
 }
 
 function createMarkup(arr) {
-
+slim()
  const card =  arr.map((el) => {
     return `<l class = "card-cat"><img class = "image" src="${el.url}" alt="${el.breeds[0].name}  width="${el.width}" height="${el.height}"" />
       <div class="card-info"><h2 class = "name">${el.breeds[0].name}</h2>
