@@ -1,12 +1,10 @@
 import { fetchBreeds, fetchCatByBreed } from "./cat-api.js";
-import SlimSelect from 'slim-select';
+import SlimSelect from 'slim-select'
 import 'slim-select/dist/slimselect.css';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 
 function slim() {
-    new SlimSelect({
-    select: '.breed-select'
- })
+    
   
 }
 
@@ -37,9 +35,11 @@ fetchBreeds().then(data => {
    data = data.map((({ id, name }) => {
      return `<option value="${id}">${name}</option>`
    })).join('')
-   slim()
+   
   refs.select.insertAdjacentHTML('afterbegin', data);
- 
+  new SlimSelect({
+    select: '.breed-select'
+ })
     })
   .catch(error => {
     // refs.loader.hidden = true;
@@ -75,7 +75,7 @@ function searchCat(evt) {
 }
 
 function createMarkup(arr) {
-slim()
+
  const card =  arr.map((el) => {
     return `<l class = "card-cat"><img class = "image" src="${el.url}" alt="${el.breeds[0].name}  width="${el.width}" height="${el.height}"" />
       <div class="card-info"><h2 class = "name">${el.breeds[0].name}</h2>
