@@ -3,10 +3,6 @@ import SlimSelect from 'slim-select'
 import 'slim-select/dist/slimselect.css';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 
-function slim() {
-    
-  
-}
 
 const refs = {
     select: document.querySelector(".breed-select"),
@@ -51,7 +47,6 @@ fetchBreeds().then(data => {
 
 
 refs.select.addEventListener('input', searchCat);
-
 
     
 function searchCat(evt) {
