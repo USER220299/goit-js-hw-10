@@ -9,14 +9,15 @@ const refs = {
     error:document.querySelector('.error'),
     catInfo: document.querySelector(".cat-info"),
 }
+// refs.select.hidden = true
+refs.select.classList.replace("breed-select", "breed-select-hidden");
+refs.error.classList.replace("error", "error-hidden");
+// refs.error.hidden = true
 
-refs.select.hidden = true
-refs.error.hidden = true
-refs.loader.textContent = "";
-
+refs.loader.classList.replace("loader", "loader-hidden");
 fetchBreeds().then(data => {
 
-  refs.select.hidden = false;
+  refs.select.classList.replace( "breed-select-hidden", "breed-select");
   refs.loader.classList.replace("loader", "loader-hidden");
 
    data = data.map((({ id, name }) => {

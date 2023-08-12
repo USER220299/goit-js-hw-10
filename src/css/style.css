@@ -80,10 +80,13 @@ h3 {
     transform: rotate(360deg);
   }
 }
+
+.breed-select-hidden {
+  display: none;
+}
 .loader-hidden {
   display: none;
 }
-/* .error {
-  max-width: 100px;
-  font-size: 10px;
-} */
+.error-hidden {
+  display: none;
+}
